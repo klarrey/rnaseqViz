@@ -1,0 +1,28 @@
+Package: rnaseqViz
+Title: Visualization Tools for RNA Sequencing Data Analysis
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Enoch", family = "Larrey", email = "enochlarrey10@gmail.com", role = c("aut", "cre"))
+Description: Provides reusable visualization functions for exploring
+    RNA sequencing differential expression results. Supports volcano
+    plots, principal component analysis, heatmaps, and comparisons
+    between statistical models. Designed for reproducible transcriptomics
+    analysis and integration with interactive Shiny applications.
+License: MIT + file LICENSE
+Config/roxygen2/version: 8.1.0
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+Imports: 
+    dplyr,
+    ggplot2,
+    ggrepel,
+    pheatmap,
+    rlang
+Suggests: 
+    testthat (>= 3.0.0),
+    bslib,
+    DT,
+    shiny
+Config/testthat/edition: 3
+Depends: 
+    R (>= 3.5)
