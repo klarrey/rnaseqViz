@@ -498,3 +498,74 @@ devtools::check()
 #==================================================================
 
 usethis::use_r("run_app")
+
+#pasted some code to run_app.R file
+
+
+#launch the application after installation
+library(rnaseqViz)
+
+run_app()
+
+
+#==============================================================
+#Step:2 Prepare the GitHub repository
+#==============================================================
+#2.1 Create README.md
+
+usethis::use_readme_md()
+
+
+#2.2 Initialize Git
+usethis::use_git()
+
+
+#Step 3.2 — Check the Git repository
+getwd()
+
+system("git status")
+
+
+#Step 3.3 — Review your .gitignore
+usethis::use_git_ignore(
+  c(
+    ".Rhistory",
+    ".RData",
+    ".Ruserdata",
+    ".Rproj.user",
+    ".Rcheck",
+    ".Renviron",
+    ".Rprofile"
+  )
+)
+
+
+#Step 3.4 — Verify the files before committing
+# Files Git is not ignoring
+system("git status --short")
+
+# Files Git is configured to ignore
+system("git status --ignored --short")
+
+
+
+# Remove generated figures and CSVs from Git's index
+# Keep the actual files on your computer
+system("git rm -r --cached -- scripts/figs")
+
+# Stage the updated .gitignore
+system("git add .gitignore")
+
+# Verify which files are staged
+system("git status --short")
+
+#Step 3.4 — Create first commit
+
+
+
+
+
+
+
+
+
