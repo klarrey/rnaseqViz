@@ -8,6 +8,31 @@ The application currently uses a breast cancer RNA-seq dataset from NCBI Gene Ex
 
 The project demonstrates an end-to-end bioinformatics visualization workflow integrating DESeq2 results, exploratory data analysis, interactive visualizations, and downloadable results.
 
+
+## Live Shiny Application
+
+Explore the interactive breast cancer RNA-seq analysis application:
+
+**[Launch rnaseqViz](https://eklarrey.shinyapps.io/rnaseqViz/)**
+
+The application provides:
+
+- Principal Component Analysis (PCA) with adjustable numbers of variable genes.
+- Interactive volcano plots with customizable significance thresholds.
+- Heatmaps of differentially expressed genes.
+- Searchable and filterable DESeq2 results tables.
+- Dynamic differential expression summary statistics.
+- Downloadable figures (PNG/PDF) and filtered results (CSV).
+
+### Dataset
+
+GEO accession: [GSE228621](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE228621)
+
+Comparison: SCN5A knockdown versus control in MDA-MB-231 breast cancer xenograft tumors.
+
+Analysis: DESeq2.
+
+
 ## Features
 
 **1. Principal Component Analysis (PCA)**
