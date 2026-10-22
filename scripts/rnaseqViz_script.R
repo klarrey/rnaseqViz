@@ -407,7 +407,7 @@ install.packages(c(
 ))
 
 
-#Add dependencies to your R package
+#Add dependencies to R package
 usethis::use_package("shiny")
 usethis::use_package("bslib")
 usethis::use_package("DT")
@@ -421,7 +421,7 @@ dir.create(
 )
 
 
-#verify that your packaged data can be loaded
+#verify that packaged data can be loaded
 devtools::load_all()
 
 dim(res_df)
@@ -477,7 +477,7 @@ shiny::runApp("inst/shiny")
 #Step 1 — Validate the R package
 #=========================================================
 
-#1.1 Open your package project
+#1.1 Open package project
 
 #1.2 Run the complete validation
 # Load the current package
@@ -526,7 +526,7 @@ getwd()
 system("git status")
 
 
-#Step 3.3 — Review your .gitignore
+#Step 3.3 — Review .gitignore
 usethis::use_git_ignore(
   c(
     ".Rhistory",
@@ -550,7 +550,7 @@ system("git status --ignored --short")
 
 
 # Remove generated figures and CSVs from Git's index
-# Keep the actual files on your computer
+# Keep the actual files on computer
 system("git rm -r --cached -- scripts/figs")
 
 # Stage the updated .gitignore
@@ -559,13 +559,213 @@ system("git add .gitignore")
 # Verify which files are staged
 system("git status --short")
 
+
+#Step 3.4 — Ensure generated files remain ignored
+# Add the generated figures directory to .gitignore
+cat("\nscripts/figs/\n",
+    file = ".gitignore",
+    append = TRUE)
+
+# Stage the updated .gitignore
+system("git add .gitignore")
+
+# Verify Git status
+system("git status --short")
+
+
+
+
+
 #Step 3.4 — Create first commit
+system('git commit -m "Initial release of rnaseqViz R package and Shiny app"')
+
+#verify the commit
+system("git log -1 --oneline")
 
 
 
+#Step 3.5 — Configure  Git identity
+#1. Set  Git username
+system('git config --global user.name "Enoch Larrey"')
+
+#2. Set  Git email address
+system('git config --global user.email "larreykwaku@gmail.com"')
+
+#Step 3.6 — Verify  Git configuration
+system("git config --global user.name")
+system("git config --global user.email")
+
+#Step 4.1 — Rename  local branch to main
+system("git branch -M main")
+
+#Verify the branch name
+system("git branch")
+
+
+#Step 4.2 — Connect local repository to GitHub
+system("git remote add origin https://github.com/klarrey/rnaseqViz.git")
+
+#Verify the connection
+system("git remote -v")
+
+
+#Step 4.3 — Push rnaseqViz to GitHub
+#check whether any changes remain uncommitted
+system("git status --short")
+
+#Step 4.3.1 — Commit the modified file
+# Stage the modified file
+system("git add scripts/rnaseqViz_script.R")
+
+# Commit the changes
+system('git commit -m "Update RNA-seq analysis script"')
+
+
+#Step 4.3.3 — Push  repository to GitHub
+system("git push -u origin main")
 
 
 
+#==============================================================
+#Next milestone — Deploying Shiny application
+#==============================================================
+#Step 5.1 — Create a shinyapps.io account
+#https://www.shinyapps.io/admin/#/dashboard
+#https://connect.posit.cloud/signup
+#account name: eklarrey
+#email: enochlarrey10@gmail.com
+
+#Step 5.2 — Install and configure rsconnect
+install.packages('rsconnect')
+
+#load it
+library(rsconnect)
+
+#3. Verify  account connection
+rsconnect::accounts()
+
+#Step 5.3 — Verify the package dependency
+#Step 5.3.1 — Verify  local package installation
+# Check whether rnaseqViz is installed
+"rnaseqViz" %in% rownames(installed.packages())
+
+# Check the installed package version
+packageVersion("rnaseqViz")
+
+# Check the installed package location
+find.package("rnaseqViz")
 
 
+#Step 5.3.3 — Install rnaseqViz locally
+# Install the package from  current project
+# Install the package from  current project
+devtools::install(
+  pkg = ".",
+  upgrade = FALSE
+)
 
+
+#Step 5.3.4 — Restart R and verify installation
+
+#Step 5.3.5 — Verify internal datasets
+pkg_env <- asNamespace("rnaseqViz")
+
+dim(get("res_df", envir = pkg_env))
+
+dim(get("expression_matrix", envir = pkg_env))
+
+dim(get("sample_metadata", envir = pkg_env))
+
+
+#Step 5.4 — Prepare the application for shinyapps.io
+
+#Step 5.4.1 — Check how rsconnect detects dependencies
+# Check the current working directory
+getwd()
+
+# Inspect dependencies of the Shiny application
+rsconnect::appDependencies(
+  appDir = "inst/shiny"
+)
+
+
+#Step 5.4.2 — Install rnaseqViz from GitHub
+#1. Install remotes if necessary
+#install.packages("remotes")
+#package already available, installation is not necessary
+library("remotes")
+
+#3. Install rnaseqViz from GitHub
+remotes::install_github(
+  repo = "klarrey/rnaseqViz",
+  upgrade = FALSE,
+  force = TRUE
+)
+
+
+#Step 5.4.3 — Verify the GitHub installation
+# Check package version
+packageVersion("rnaseqViz")
+
+# Check GitHub source metadata
+packageDescription("rnaseqViz")$RemoteType
+
+packageDescription("rnaseqViz")$RemoteRepo
+
+packageDescription("rnaseqViz")$RemoteUsername
+
+
+#Step 5.4.4 — Retry dependency detection
+rsconnect::appDependencies(
+  appDir = "inst/shiny"
+)
+
+
+#Step 5.5 — Deploy the Shiny application
+rsconnect::deployApp(
+  appDir = "inst/shiny",
+  appName = "rnaseqViz",
+  account = "eklarrey",
+  server = "shinyapps.io",
+  forceUpdate = TRUE
+)
+
+
+#✔ Successfully deployed to <https://eklarrey.shinyapps.io/rnaseqViz/>
+
+
+#Step 6 — Update GitHub with live application
+#Step 6.1 — Add the live application link to README.md
+
+
+#Step 6.2 — Save and commit changes
+
+
+# Check which files have changed
+system("git status --short")
+
+# Stage the updated README
+system("git add README.md")
+
+# Commit the documentation update
+system('git commit -m "Add live Shiny application link to README"')
+
+# Push the changes to GitHub
+system("git push origin main")
+
+
+#Step 6.3 — Clean up remaining Git changes
+
+# Ignore shinyapps.io deployment metadata
+cat(
+  "\ninst/shiny/rsconnect/\n",
+  file = ".gitignore",
+  append = TRUE
+)
+
+# Verify Git status
+system("git status --short")
+
+#
+# Review changes without modifying the script
+system("git diff -- scripts/rnaseqViz_script.R")

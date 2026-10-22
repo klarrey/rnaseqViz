@@ -10,3 +10,5 @@
 .Rprofile
 
 scripts/figs/
+
+inst/shiny/rsconnect/
