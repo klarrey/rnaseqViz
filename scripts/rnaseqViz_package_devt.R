@@ -775,7 +775,7 @@ system("git diff -- scripts/rnaseqViz_script.R")
 
 # Stage both modified files
 system(
-  "git add .gitignore scripts/rnaseqViz_script.R"
+  "git add scripts/DESeq2_analysis.R scripts/rnaseqViz_package_devt.R"
 )
 
 # Commit the changes
@@ -787,4 +787,22 @@ system(
 system("git push origin main")
 
 # Verify repository status
+system("git status --short")
+
+
+#Step 6.6 — Confirm and commit the deletions
+
+# Stage the two deletions
+system("git add -u")
+
+# Review staged changes
+system("git diff --cached --stat")
+
+# Commit the cleanup
+system('git commit -m "Remove development scripts from repository"')
+
+# Push to GitHub
+system("git push origin main")
+
+# Verify final status
 system("git status --short")

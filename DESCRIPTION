@@ -1,6 +1,6 @@
 Package: rnaseqViz
 Title: Visualization Tools for RNA Sequencing Data Analysis
-Version: 0.0.0.9000
+Version: 0.1.0
 Authors@R: 
     person(given = "Enoch", family = "Larrey", email = "enochlarrey10@gmail.com", role = c("aut", "cre"))
 Description: Provides reusable visualization functions for exploring
